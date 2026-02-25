@@ -1,0 +1,8 @@
+{
+  "name": "cafa-food-art-frontend",
+  "version": "1.0.0",
+  "description": "CAFA Food Art Frontend",
+  "scripts": {
+    "start": "npx serve ."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "transform": {
+      "verifyJwt": false
+    }
+  }
+}

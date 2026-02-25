@@ -727,29 +727,69 @@
             return canvas.toDataURL('image/png');
         }
 
+        // Supabase Edge Function URL (需要替换为实际的 URL)
+        const API_URL = 'https://your-project-ref.supabase.co/functions/v1/transform';
+
         // 开始转化
-        function startConversion() {
+        async function startConversion() {
+            if (!currentFile) {
+                alert('请先上传图片');
+                return;
+            }
+
             convertBtn.disabled = true;
             convertBtn.classList.add('loading');
-            convertBtn.textContent = '转化中...';
+            convertBtn.textContent = 'AI 转化中...';
             loader.classList.add('active');
 
-            // 模拟 AI 处理时间
-            setTimeout(() => {
+            try {
+                // 创建 FormData
+                const formData = new FormData();
+                formData.append('image', currentFile);
+
+                // 调用 Supabase Edge Function
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('转化失败');
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // 显示结果
+                    foodImage.src = result.transformedImage;
+                    resultFoodImage.src = result.transformedImage;
+                    foodName.textContent = result.foodName;
+                    foodStory.textContent = result.foodStory;
+                    
+                    // 生成标签
+                    const tags = ['艺术转化', 'AI创作', '食物美学', '正能量'];
+                    foodTags.innerHTML = tags.map(tag => `<span class="food-tag">${tag}</span>`).join('');
+
+                    resultBox.style.display = 'block';
+                } else {
+                    throw new Error(result.error || '转化失败');
+                }
+            } catch (error) {
+                console.error('转化错误:', error);
+                // 如果 API 调用失败，使用本地生成作为 fallback
                 const randomIndex = Math.floor(Math.random() * foodArtDatabase.themes.length);
                 const foodArtImage = generateFoodArt();
                 
-                // 显示结果
                 foodImage.src = foodArtImage;
                 resultFoodImage.src = foodArtImage;
                 foodName.textContent = foodArtDatabase.themes[randomIndex];
                 foodStory.textContent = foodArtDatabase.stories[randomIndex];
                 
-                // 生成标签
                 const tags = ['艺术转化', 'AI创作', '食物美学', '正能量'];
                 foodTags.innerHTML = tags.map(tag => `<span class="food-tag">${tag}</span>`).join('');
 
                 resultBox.style.display = 'block';
+            } finally {
                 loader.classList.remove('active');
                 convertBtn.classList.remove('loading');
                 convertBtn.textContent = '转化完成';
@@ -759,7 +799,7 @@
                     resultSection.classList.add('active');
                     resultSection.scrollIntoView({ behavior: 'smooth' });
                 }, 500);
-            }, 2000);
+            }
         }
 
         // 重置
