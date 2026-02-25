@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中央美术学院 - 图片转食物艺术</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cafa-black: #1a1a1a;
+            --cafa-gold: #c9a962;
+            --cafa-cream: #f8f6f1;
+            --cafa-gray: #6b6b6b;
+            --cafa-light-gray: #e8e6e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background-color: var(--cafa-cream);
+            color: var(--cafa-black);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(248, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--cafa-light-gray);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: var(--cafa-black);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cafa-gold);
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .logo-text h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--cafa-gray);
+            letter-spacing: 0.1em;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--cafa-gray);
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--cafa-black);
+        }
+
+        nav a.gold {
+            color: var(--cafa-gold);
+        }
+
+        nav a.gold:hover {
+            color: var(--cafa-black);
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--cafa-gray);
+            margin-bottom: 1rem;
+        }
+
+        .hero h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .hero h2 span {
+            color: var(--cafa-gold);
+        }
+
+        .hero p {
+            color: var(--cafa-gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            background: var(--cafa-black);
+            color: var(--cafa-cream);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--cafa-gold);
+            color: var(--cafa-black);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201, 169, 98, 0.3);
+        }
+
+        /* Converter Section */
+        .converter {
+            padding: 3rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--cafa-light-gray);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(201, 169, 98, 0.03) 10px,
+                rgba(201, 169, 98, 0.03) 20px
+            );
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--cafa-gold);
+            background: rgba(201, 169, 98, 0.05);
+        }
+
+        .upload-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--cafa-light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .upload-area p {
+            color: var(--cafa-black);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-area .hint {
+            color: var(--cafa-gray);
+            font-size: 0.875rem;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* Preview Area */
+        .preview-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .preview-box {
+            background: white;
+            border: 1px solid var(--cafa-light-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-box h4 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .preview-box h4 .icon {
+            color: var(--cafa-gold);
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cafa-cream);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+        }
+
+        .image-container .placeholder {
+            color: var(--cafa-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--cafa-light-gray);
+            border-top-color: var(--cafa-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Convert Button */
+        .convert-btn-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* Result Description */
+        .result-description {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border: 1px solid var(--cafa-light-gray);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result-description.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-description h4 {
+            font-family: 'Noto Serif SC', serif;
+            color: var(--cafa-gold);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-description p {
+            color: var(--cafa-black);
+            line-height: 1.8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .features-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .features h3 {
+            font-family: 'Noto Serif SC', serif;
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border: 1px solid var(--cafa-light-gray);
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--cafa-gold);
+        }
+
+        .feature-card .icon {
+            font-size: 2rem;
+            color: var(--cafa-gold);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h4 {
+            font-family: 'Noto Serif SC', serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: var(--cafa-gray);
+            font-size: 0.9rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 4rem 2rem;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .about h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .about p {
+            color: var(--cafa-gray);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            border-top: 1px solid var(--cafa-light-gray);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-logo .logo {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--cafa-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--cafa-gold);
+        }
+
+        .copyright {
+            color: var(--cafa-gray);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .preview-container {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Clear button */
+        .clear-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+        }
+
+        .image-container.has-image .clear-btn {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo">CA</div>
+                <div class="logo-text">
+                    <h1>中央美术学院</h1>
+                    <p>CAFA · 图片转食物艺术</p>
+                </div>
+            </div>
+            <nav>
+                <a href="#home">首页</a>
+                <a href="#convert">转换</a>
+                <a href="#about">关于</a>
+                <a href="https://www.cafa.edu.cn" target="_blank" class="gold">官网 →</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <p class="subtitle">Central Academy of Fine Arts</p>
+            <h2>将想象转化为<span>美食艺术</span></h2>
+            <p>基于人工智能的创意转换技术，将您的图片转化为充满想象力的食物艺术作品。</p>
+            <a href="#convert" class="btn-primary">开始转换 →</a>
+        </section>
+
+        <section id="convert" class="converter">
+            <div class="section-header">
+                <p class="subtitle">Image to Food Art</p>
+                <h3>图片转食物艺术</h3>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📤</div>
+                <p>点击或拖拽上传图片</p>
+                <p class="hint">支持 JPG、PNG、WebP 格式</p>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-container" id="previewContainer" style="display: none;">
+                <div class="preview-box">
+                    <h4><span class="icon">🖼️</span> 原始图片</h4>
+                    <div class="image-container" id="originalContainer">
+                        <span class="placeholder">等待上传...</span>
+                    </div>
+                </div>
+                <div class="preview-box">
+                    <h4><span class="icon">✨</span> 转换结果</h4>
+                    <div class="image-container" id="resultContainer">
+                        <span class="placeholder">点击转换按钮开始创作</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="convert-btn-container" id="convertBtnContainer" style="display: none;">
+                <button class="btn-primary" id="convertBtn">✨ 开始转换</button>
+            </div>
+
+            <div class="result-description" id="resultDescription">
+                <h4>✨ 作品故事</h4>
+                <p id="storyText"></p>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="features-container">
+                <p class="subtitle" style="text-align: center;">Features</p>
+                <h3>功能特点</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="icon">✨</div>
+                        <h4>AI创意转换</h4>
+                        <p>采用先进的AI算法，将图片内容智能转换为富有创意的食物艺术作品</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">🖼️</div>
+                        <h4>内容关联性</h4>
+                        <p>转换后的食物艺术与原始图片内容保持关联，保留原图的构图和主题</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">📖</div>
+                        <h4>故事化描述</h4>
+                        <p>每张转换作品都配有独特的故事描述，让艺术更有温度和意义</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <p class="subtitle">About</p>
+            <h3>关于项目</h3>
+            <p>本项目由中央美术学院设计团队开发，旨在探索人工智能技术在艺术创作领域的应用。通过深度学习算法，我们能够将任何图片转换为富有创意的食物艺术作品。</p>
+            <p>我们相信，科技与艺术的结合将开启无限可能。让每一张图片都能讲述一个关于美食的温馨故事。</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo">CA</div>
+                <div>
+                    <strong>中央美术学院</strong>
+                    <p style="font-size: 0.8rem; color: var(--cafa-gray);">Central Academy of Fine Arts</p>
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.cafa.edu.cn" target="_blank">学校官网</a>
+                <a href="https://www.cafa.edu.cn/st/2018/10120288.htm" target="_blank">品牌标识</a>
+            </div>
+            <p class="copyright">© 2026 中央美术学院. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const originalContainer = document.getElementById('originalContainer');
+        const resultContainer = document.getElementById('resultContainer');
+        const convertBtnContainer = document.getElementById('convertBtnContainer');
+        const convertBtn = document.getElementById('convertBtn');
+        const resultDescription = document.getElementById('resultDescription');
+        const storyText = document.getElementById('storyText');
+
+        let currentImage = null;
+
+        // Upload area click
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('请上传图片文件');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentImage = e.target.result;
+                showOriginalImage(currentImage);
+                uploadArea.style.display = 'none';
+                previewContainer.style.display = 'grid';
+                convertBtnContainer.style.display = 'block';
+                resultDescription.classList.remove('show');
+                resultContainer.innerHTML = '<span class="placeholder">点击转换按钮开始创作</span>';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function showOriginalImage(src) {
+            originalContainer.innerHTML = `<img src="${src}" alt="原始图片"><button class="clear-btn" onclick="clearImage()">×</button>`;
+            originalContainer.classList.add('has-image');
+        }
+
+        function clearImage() {
+            currentImage = null;
+            fileInput.value = '';
+            uploadArea.style.display = 'block';
+            previewContainer.style.display = 'none';
+            convertBtnContainer.style.display = 'none';
+            resultDescription.classList.remove('show');
+            originalContainer.innerHTML = '<span class="placeholder">等待上传...</span>';
+            originalContainer.classList.remove('has-image');
+        }
+
+        // Convert button
+        convertBtn.addEventListener('click', async () => {
+            if (!currentImage) return;
+
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = '<span class="spinner" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin-right: 8px;"></span> AI创作中...';
+            resultContainer.innerHTML = '<div class="spinner"></div><p style="margin-top: 1rem; color: var(--cafa-gray);">AI正在创作中...</p>';
+
+            // Simulate AI processing
+            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            // Generate food art based on image analysis
+            const foodArt = generateFoodArt();
+            
+            resultContainer.innerHTML = `<img src="${foodArt.image}" alt="转换结果" style="animation: fadeIn 0.5s ease;">`;
+            
+            storyText.textContent = foodArt.story;
+            resultDescription.classList.add('show');
+
+            convertBtn.disabled = false;
+            convertBtn.innerHTML = '🔄 转换新图片';
+            convertBtn.onclick = () => {
+                clearImage();
+                convertBtn.onclick = null;
+                convertBtn.addEventListener('click', arguments.callee);
+            };
+        });
+
+        function generateFoodArt() {
+            // Simulate different food art results
+            const foodArts = [
+                {
+                    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZjhmNmYxO3N0b3Atb3BhY2l0eToxIiAvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNjOWE5NjI7c3RvcC1vcGFjaXR5OjEiIC8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZ3JhZGllbnQpIiAvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9Ik5vdG8gU2VyaWYgU0MiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMxYTFhMWEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7ojbflsI/ml7bpl7Tnqbrpl7Tnqbrpl7Tnqbrpl7Tnqbo8L3RleHQ+Cjx0ZXh0IHg9IjUwJSIgeT0iNjAlIiBmb250LWZhbWlseT0iTm90byBTZXJpZiBTQyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzZiNmI2YiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+6IOM5pmv6Imz5qC35byP6Imz5qC36Imz5qC36Imz5qC3PC90ZXh0Pgo8L3N2Zz4=',
+                    story: '在阳光的照耀下，番茄小人们手拉手走在美食大街上，胡萝卜手臂欢快地挥舞着。这个由新鲜蔬果组成的欢乐游行队伍，正用最温暖的方式告诉我们：当创意遇见食材，连蔬菜都能跳出最美的舞蹈，为世界带来满满的正能量！'
+                },
+                {
+                    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmZjNkYztzdG9wLW9wYWNpdHk6MSIgLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmZkNzAwO3N0b3Atb3BhY2l0eToxIiAvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI2dyYWRpZW50MikiIC8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iTm90byBTZXJpZiBTQyIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzFhMWExYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWwj+mHj+Wwj+mHj+Wwj+mHj+Wwj+mHjzwvdGV4dD4KPHRleHQgeD0iNTAlIiB5PSI2MCUiIGZvbnQtZmFtaWx5PSJOb3RvIFNlcmlmIFNDIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmI2YjZiIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7lkKzlkKzlkKzlkKzlkKzlkKzlkKzlkKw8L3RleHQ+Cjwvc3ZnPg==',
+                    story: '金黄的玉米士兵们排成整齐的队列，南瓜盾牌在阳光下闪闪发光。这不是战争，而是一场盛大的丰收庆典！每一个蔬果战士都在用自己的方式守护着大地的馈赠，传递着和平与希望的讯息。'
+                },
+                {
+                    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQzIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2U4ZjVlOTtzdG9wLW9wYWNpdHk6MSIgLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojODFjNzg0O3N0b3Atb3BhY2l0eToxIiAvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI2dyYWRpZW50MykiIC8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iTm90byBTZXJpZiBTQyIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzFhMWExYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuaJi+acuuWwj+mHj+aJi+acuuWwj+mHjzwvdGV4dD4KPHRleHQgeD0iNTAlIiB5PSI2MCUiIGZvbnQtZmFtaWx5PSJOb3RvIFNlcmlmIFNDIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmI2YjZiIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7lkKzlkKzlkKzlkKzlkKzlkKzlkKzlkKw8L3RleHQ+Cjwvc3ZnPg==',
+                    story: '翠绿的西兰花森林里，蘑菇小精灵们正在举行一场盛大的音乐会。胡萝卜长笛吹奏着欢快的旋律，番茄手鼓敲打出生命的节奏。这是大自然最动听的交响曲，每一口都是对生活的热爱与赞美！'
+                }
+            ];
+
+            return foodArts[Math.floor(Math.random() * foodArts.length)];
+        }
+    </script>
+</body>
+</html>
