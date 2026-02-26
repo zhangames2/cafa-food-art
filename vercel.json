@@ -1,16 +1,9 @@
 {
   "version": 2,
-  "name": "cafa-food-art-frontend",
   "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
+    { "src": "server.js", "use": "@vercel/node" }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    { "src": "/(.*)", "dest": "server.js" }
   ]
 }

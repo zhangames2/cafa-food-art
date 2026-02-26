@@ -1,8 +1,32 @@
 {
-  "name": "cafa-food-art-frontend",
+  "name": "food-art-transformer",
   "version": "1.0.0",
-  "description": "CAFA Food Art Frontend",
+  "description": "图片转化为食物艺术智能体 API 服务",
+  "main": "server.js",
   "scripts": {
-    "start": "npx serve ."
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "tunnel": "lt --port 3000"
+  },
+  "keywords": [
+    "food-art",
+    "image-transform",
+    "api",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "localtunnel": "^2.0.2",
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
